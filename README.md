@@ -1,4 +1,4 @@
-# 🇵🇰 Amaan CIRO
+# Amaan CIRO
 ### *Autonomous Multi-Agent Crisis Response Orchestrator*
 
 [![Live Web Dashboard](https://img.shields.io/badge/Vercel-Web_Dashboard-000000?style=for-the-badge&logo=vercel&logoColor=white)](https://amaan-ciro-web.vercel.app)
@@ -9,9 +9,9 @@
 
 ---
 
-## 🌐 Enterprise Production Deployments
+## 🌐 Production Deployments Links
 
-For the Google AI Seekho Hackathon 2026, the complete **Amaan (CIRO)** ecosystem has been fully compiled, containerized, and deployed to production cloud environments:
+The complete **Amaan (CIRO)** ecosystem has been fully compiled, containerized, and deployed to production cloud environments:
 
 *   🌐 **Live Command Dashboard (Vercel SPA):** [https://amaan-ciro-web.vercel.app](https://amaan-ciro-web.vercel.app)
 *   🧠 **Serverless Agent Engine (Google Cloud Run API & Swagger Docs):** [https://amaan-ciro-485623882730.asia-south1.run.app/docs](https://amaan-ciro-485623882730.asia-south1.run.app/docs)
