@@ -5,7 +5,7 @@
 [![API Docs & Swagger](https://img.shields.io/badge/FastAPI-Cloud_Run_Swagger-009688?style=for-the-badge&logo=fastapi&logoColor=white)](https://amaan-ciro-485623882730.asia-south1.run.app/docs)
 [![Android Build](https://img.shields.io/badge/Android-APK_Build-3DDC84?style=for-the-badge&logo=android&logoColor=white)](file:///c:/Users/Human/Documents1/Amaan/src/frontend/android/app/build/outputs/apk/debug/app-debug.apk)
 
-![Amaan Tactical Command Dashboard with Secure AI Comms Channel](docs/screenshots/tactical_dashboard_chat.png)
+![Amaan Tactical Command Dashboard with Secure AI Comms Channel](docs/screenshots/interactive_map_layers.png)
 
 ---
 
@@ -42,8 +42,8 @@ Amaan's high-fidelity map interface provides EOC operators with real-world spati
       <img src="docs/screenshots/map_view_scenarios.png" alt="Map View Scenarios" width="100%"/>
     </td>
     <td width="50%" align="center">
-      <b>WebGL Interactive Map Layers Console</b><br/>
-      <img src="docs/screenshots/interactive_map_layers.png" alt="Interactive Map Layers" width="100%"/>
+      <b>WebGL Interactive Map Layers Console with Chat</b><br/>
+      <img src="docs/screenshots/tactical_dashboard_chat.png" alt="Interactive Map Layers" width="100%"/>
     </td>
   </tr>
 </table>
