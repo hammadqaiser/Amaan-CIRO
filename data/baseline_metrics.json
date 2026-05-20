@@ -1,0 +1,8 @@
+{
+    "baseline_response_time_minutes": 23.0,
+    "amaan_response_time_minutes": 9.0,
+    "baseline_false_positive_rate": 0.23,
+    "amaan_false_positive_rate": 0.07,
+    "baseline_resource_utilization_pct": 65.0,
+    "amaan_resource_utilization_pct": 89.0
+}

@@ -1,0 +1,57 @@
+# Virtual Environment
+venv/
+.venv/
+ENV/
+env/
+
+# Python Cache & Tests
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.pytest_cache/
+.coverage
+htmlcov/
+.tox/
+.nox/
+.mypy_cache/
+
+# Local Environment Configs
+.env
+.env.local
+.env.*.local
+*.env
+
+# Dependencies & Build Outputs (Web/Frontend)
+node_modules/
+dist/
+build/
+.vercel/
+src/frontend/node_modules/
+src/frontend/dist/
+
+# Android Native Build Outputs (Capacitor)
+src/frontend/android/app/build/
+src/frontend/android/.gradle/
+src/frontend/android/local.properties
+src/frontend/android/captmp/
+src/frontend/android/app/src/main/assets/public/
+
+# OS/Editor Configs
+.DS_Store
+Thumbs.db
+.idea/
+.vscode/
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.swp
+
+# Hackathon / Agent Development Sandbox Temporary Caches
+.gemini/
+.system_generated/
+.tempmediaStorage/
+brain/
+scratch/
+json outputs/

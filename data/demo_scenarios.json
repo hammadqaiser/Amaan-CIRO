@@ -1,0 +1,51 @@
+[
+  {
+    "scenario": "A",
+    "signals": [
+      {
+        "signal_id": "sig-001",
+        "source": "open-meteo",
+        "signal_type": "weather",
+        "content": "82mm rainfall in past 3 hours, intensity increasing",
+        "location": {"lat": 33.7047, "lng": 73.0079, "address": "G-10, Islamabad"},
+        "timestamp": "2026-05-18T14:32:00Z",
+        "credibility_score": 0.92,
+        "staleness_flag": false,
+        "raw_data": {}
+      },
+      {
+        "signal_id": "sig-002",
+        "source": "google_traffic",
+        "signal_type": "traffic",
+        "content": "Severe congestion and standstill traffic on Jinnah Ave",
+        "location": {"lat": 33.7047, "lng": 73.0079, "address": "Jinnah Ave near G-10"},
+        "timestamp": "2026-05-18T14:30:00Z",
+        "credibility_score": 0.87,
+        "staleness_flag": false,
+        "raw_data": {}
+      },
+      {
+        "signal_id": "sig-003",
+        "source": "gdelt",
+        "signal_type": "social",
+        "content": "Water entering basements in G-10 markaz, cars submerged",
+        "location": {"lat": 33.7047, "lng": 73.0079, "address": "G-10 Markaz"},
+        "timestamp": "2026-05-18T14:15:00Z",
+        "credibility_score": 0.58,
+        "staleness_flag": false,
+        "raw_data": {}
+      },
+      {
+        "signal_id": "sig-004",
+        "source": "citizen_app",
+        "signal_type": "field_report",
+        "content": "Water main burst, not a flood",
+        "location": {"lat": 33.7047, "lng": 73.0079, "address": "G-10/2"},
+        "timestamp": "2026-05-18T10:00:00Z",
+        "credibility_score": 0.40,
+        "staleness_flag": true,
+        "raw_data": {}
+      }
+    ]
+  }
+]

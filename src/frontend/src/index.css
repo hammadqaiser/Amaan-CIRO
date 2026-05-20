@@ -1,0 +1,77 @@
+@import "tailwindcss";
+
+@theme {
+  --color-primary: #3b82f6;
+  --color-secondary: #0ea5e9;
+  --color-accent: #fbbf24;
+  --color-danger: #f87171;
+  --color-success: #34d399;
+  
+  /* Light Theme Defaults (unused but kept for structure) */
+  --color-bg-main: #050505;
+  --color-surface: #0a0a0a;
+  --color-text-main: #f3f4f6;
+  --color-text-muted: #9ca3af;
+  --color-border: #1f1f1f;
+}
+
+/* Dark Theme Overrides - Force Dark Mode Style globally */
+.dark {
+  --color-primary: #3b82f6;
+  --color-bg-main: #020202; /* Extremely dark military console theme */
+  --color-surface: #0a0a0a;
+  --color-text-main: #f3f4f6;
+  --color-text-muted: #6b7280;
+  --color-border: #1f1f1f;
+}
+
+body {
+  @apply bg-[#020202] text-gray-200 font-mono antialiased transition-colors duration-300;
+  margin: 0;
+  overflow-y: auto;
+  scroll-behavior: smooth;
+}
+
+#root {
+  @apply mx-auto relative bg-[#020202] transition-colors duration-300;
+  min-height: 100vh;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+.glass-panel {
+  @apply bg-[#070707] border border-[#1f1f1f] shadow-2xl rounded shadow-black/80 transition-all duration-300;
+}
+
+.panel-header {
+  @apply font-bold text-gray-400 uppercase tracking-widest text-[10px] border-b border-[#1a1a1a] pb-1.5 mb-2 font-mono transition-colors duration-300;
+}
+
+/* Cyber Pulse Indicators */
+.pulse-green {
+  box-shadow: 0 0 8px rgba(52, 211, 153, 0.4);
+}
+.pulse-red {
+  box-shadow: 0 0 8px rgba(248, 113, 113, 0.4);
+}
+.pulse-amber {
+  box-shadow: 0 0 8px rgba(251, 191, 36, 0.4);
+}
+
+/* Custom Scrollbars */
+.custom-scrollbar::-webkit-scrollbar {
+  width: 5px;
+  height: 5px;
+}
+.custom-scrollbar::-webkit-scrollbar-track {
+  background: #050505;
+}
+.custom-scrollbar::-webkit-scrollbar-thumb {
+  background: #222;
+  border-radius: 2px;
+}
+.custom-scrollbar::-webkit-scrollbar-thumb:hover {
+  background: #333;
+}
+

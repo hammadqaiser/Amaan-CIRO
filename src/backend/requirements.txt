@@ -1,0 +1,18 @@
+fastapi
+uvicorn
+gunicorn
+pydantic
+google-genai
+firebase-admin
+httpx
+python-dateutil
+python-multipart
+python-dotenv
+pytest
+pytest-asyncio
+# LangChain + LangGraph (CIRO graph orchestration)
+groq
+langchain
+langchain-core
+langchain-google-genai
+langgraph

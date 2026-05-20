@@ -1,0 +1,59 @@
+{
+  "ambulances": {
+    "total": 12, "available": 8,
+    "locations": [
+      {"lat": 33.7215, "lng": 73.0433, "unit_id": "AMB-01"},
+      {"lat": 33.6938, "lng": 73.0651, "unit_id": "AMB-02"},
+      {"lat": 33.7394, "lng": 73.0840, "unit_id": "AMB-03"},
+      {"lat": 33.6745, "lng": 72.9836, "unit_id": "AMB-04"}
+    ]
+  },
+  "rescue_boats": {
+    "total": 6, "available": 4,
+    "locations": [
+      {"lat": 33.7200, "lng": 73.0500, "unit_id": "BOAT-01"},
+      {"lat": 33.6900, "lng": 73.0700, "unit_id": "BOAT-02"}
+    ]
+  },
+  "rescue_teams": {
+    "total": 8, "available": 6,
+    "locations": [
+      {"lat": 33.7100, "lng": 73.0600, "unit_id": "TEAM-01"},
+      {"lat": 33.7300, "lng": 73.0400, "unit_id": "TEAM-02"},
+      {"lat": 33.6800, "lng": 73.0900, "unit_id": "TEAM-03"}
+    ]
+  },
+  "police_traffic_units": {
+    "total": 10, "available": 7,
+    "locations": []
+  },
+  "medical_outreach_teams": {
+    "total": 4, "available": 3,
+    "locations": []
+  },
+  "water_tankers": {
+    "total": 5, "available": 5,
+    "locations": []
+  },
+  "generators": {
+    "total": 8, "available": 6,
+    "locations": []
+  },
+  "shelters": [
+    {
+      "name": "G-10 Markaz Community Center",
+      "capacity": 300, "occupied": 0,
+      "location": {"lat": 33.7047, "lng": 73.0079, "address": "G-10 Markaz, Islamabad"}
+    },
+    {
+      "name": "I-8 Government School",
+      "capacity": 200, "occupied": 0,
+      "location": {"lat": 33.6923, "lng": 73.0612, "address": "I-8/2, Islamabad"}
+    },
+    {
+      "name": "Rawalpindi Sports Complex",
+      "capacity": 500, "occupied": 0,
+      "location": {"lat": 33.5651, "lng": 73.0169, "address": "Rawalpindi"}
+    }
+  ]
+}
