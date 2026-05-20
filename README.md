@@ -5,6 +5,8 @@
 [![API Docs & Swagger](https://img.shields.io/badge/FastAPI-Cloud_Run_Swagger-009688?style=for-the-badge&logo=fastapi&logoColor=white)](https://amaan-ciro-485623882730.asia-south1.run.app/docs)
 [![Android Build](https://img.shields.io/badge/Android-APK_Build-3DDC84?style=for-the-badge&logo=android&logoColor=white)](file:///c:/Users/Human/Documents1/Amaan/src/frontend/android/app/build/outputs/apk/debug/app-debug.apk)
 
+![Amaan Tactical Command Dashboard with Secure AI Comms Channel](docs/screenshots/tactical_dashboard_chat.png)
+
 ---
 
 ## 🌐 Enterprise Production Deployments
@@ -25,6 +27,31 @@ Pakistan loses billions of rupees and hundreds of lives annually to reactive, fr
 1.  **Fuse multi-channel signals** (real-time meteorological telemetry, traffic feeds, news trends, and citizen reports) under strict credibility and temporal-staleness constraints.
 2.  **Orchestrate dynamic emergency responses** by dispatching ambulances, rescue boats, utility shutdowns, and hospital alerts.
 3.  **Verify and self-correct conflicting alerts**, guaranteeing that false alarms are immediately retracted and resource distributions are optimized fairly without neglecting low-income sectors.
+
+---
+
+## 📸 Command Bridge Interface Showcase
+
+### 🗺️ WebGL Regional Operational Telemetry
+Amaan's high-fidelity map interface provides EOC operators with real-world spatial layouts, routing vectors, and customizable vector data checklist overlays:
+
+<table width="100%">
+  <tr>
+    <td width="50%" align="center">
+      <b>Map View & Scenario Telemetry</b><br/>
+      <img src="docs/screenshots/map_view_scenarios.png" alt="Map View Scenarios" width="100%"/>
+    </td>
+    <td width="50%" align="center">
+      <b>WebGL Interactive Map Layers Console</b><br/>
+      <img src="docs/screenshots/interactive_map_layers.png" alt="Interactive Map Layers" width="100%"/>
+    </td>
+  </tr>
+</table>
+
+### 📡 Dedicated Stakeholder Communication Logs
+The asynchronous **StakeholderCommsAgent** generates, translates, and drafts custom notifications in real-time. The dashboard showcases this in five multi-colored responsive channels:
+
+![Multi-Agency Stakeholder Communication Logs](docs/screenshots/stakeholder_communication_centers.png)
 
 ---
 
