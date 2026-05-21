@@ -8,7 +8,7 @@
 
 ---
 
-## What This Is In Agentic  Workflow
+## What This Is In Terms Of Agentic  Workflow
 
 Amaan CIRO is an agentic AI system that ingests real-time signals from weather APIs, traffic feeds, news sources, and citizen field reports — then autonomously classifies crises, predicts severity, allocates constrained emergency resources, simulates response outcomes, and broadcasts bilingual stakeholder alerts. Every decision is traceable through structured JSON reasoning logs.
 
