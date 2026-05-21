@@ -1,10 +1,12 @@
 # Amaan CIRO
 
-**Crisis Intelligence & Response Orchestrator** — Pakistan's first multi-agent system for real-time urban crisis detection, resource allocation, and coordinated emergency response.
+Real-time Multi-agent Crisis Intelligence & Response Orchestrator (CIRO) for urban crisis detection, resource allocation, and coordinated emergency response for Islamabad city. 
 
 [![Web Dashboard](https://img.shields.io/badge/Web-Dashboard-000000?style=flat-square&logo=vercel&logoColor=white)](https://amaan-ciro-web.vercel.app)
 [![API Docs](https://img.shields.io/badge/API-Swagger_Docs-009688?style=flat-square&logo=fastapi&logoColor=white)](https://amaan-ciro-485623882730.asia-south1.run.app/docs)
 [![Android APK](https://img.shields.io/badge/Android-APK_4.7MB-3DDC84?style=flat-square&logo=android&logoColor=white)](#compiling-the-android-apk)
+
+![Amaan CIRO Dashboard](docs/screenshots/amaan-main.png)
 
 ---
 
