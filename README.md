@@ -374,7 +374,3 @@ Use `GET /api/traces/export` to download all traces as a single JSON file.
 - **Single-codebase mobile** — The same React SPA runs as a web dashboard and as a native Android app (4.7 MB) via Ionic Capacitor, with no code duplication.
 
 ---
-
-## License
-
-This project was developed for research and demonstration purposes.
