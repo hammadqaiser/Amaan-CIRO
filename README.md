@@ -1,6 +1,6 @@
 # Amaan CIRO
 
-**Crisis Intelligence & Response Orchestrator** — Pakistan's first autonomous multi-agent system for real-time urban crisis detection, resource allocation, and coordinated emergency response.
+**Crisis Intelligence & Response Orchestrator** — Multi-agent system for real-time urban crisis detection, resource allocation, and coordinated emergency response.
 
 [![Web Dashboard](https://img.shields.io/badge/Web-Dashboard-000000?style=flat-square&logo=vercel&logoColor=white)](https://amaan-ciro-web.vercel.app)
 [![API Docs](https://img.shields.io/badge/API-Swagger_Docs-009688?style=flat-square&logo=fastapi&logoColor=white)](https://amaan-ciro-485623882730.asia-south1.run.app/docs)
@@ -8,7 +8,7 @@
 
 ---
 
-## What This Is
+## What This Is In Agentic  Workflow
 
 Amaan CIRO is an agentic AI system that ingests real-time signals from weather APIs, traffic feeds, news sources, and citizen field reports — then autonomously classifies crises, predicts severity, allocates constrained emergency resources, simulates response outcomes, and broadcasts bilingual stakeholder alerts. Every decision is traceable through structured JSON reasoning logs.
 
