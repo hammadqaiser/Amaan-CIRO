@@ -35,6 +35,24 @@ export default function MapCanvas() {
     }
   }, [userLocation]);
 
+  // Fly to crisis epicenter when a scenario completes
+  useEffect(() => {
+    if (activeCrisis?.location) {
+      const loc = activeCrisis.location;
+      const lat = loc.lat || loc.latitude;
+      const lng = loc.lng || loc.longitude;
+      if (lat && lng) {
+        setViewState(prev => ({
+          ...prev,
+          longitude: lng,
+          latitude: lat,
+          zoom: 14,
+          transitionDuration: 2000
+        }));
+      }
+    }
+  }, [activeCrisis]);
+
   // Static Emergency Shelters
   const EMERGENCY_SHELTERS = [
     {

@@ -30,12 +30,20 @@ build/
 src/frontend/node_modules/
 src/frontend/dist/
 
-# Android Native Build Outputs (Capacitor)
+# Android Native Build Outputs (Capacitor — legacy path)
 src/frontend/android/app/build/
 src/frontend/android/.gradle/
 src/frontend/android/local.properties
 src/frontend/android/captmp/
 src/frontend/android/app/src/main/assets/public/
+
+# Android Native Build Outputs (Capacitor — src/mobile)
+src/mobile/android/app/build/
+src/mobile/android/.gradle/
+src/mobile/android/local.properties
+src/mobile/android/captmp/
+src/mobile/android/app/src/main/assets/public/
+src/mobile/node_modules/
 
 # OS/Editor Configs
 .DS_Store

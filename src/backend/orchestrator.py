@@ -135,6 +135,9 @@ class AmaanOrchestrator:
 
         # ── 2. Crisis Classification ──
         vulnerability_data = self._load_vulnerability_data(location)
+        # Inject low_income_flag into location for ResourceAllocationAgent fairness bonus
+        if vulnerability_data.get("low_income_flag"):
+            location["low_income_flag"] = True
         class_input = CrisisClassificationInput(
             signals=ingestion_output.signals,
             location=location,
@@ -186,7 +189,7 @@ class AmaanOrchestrator:
                 primary = verif_output.updated_crisis
                 trace_summary.append(f"Verification result: {verif_output.verdict}")
 
-        if primary.crisis_type == "unknown" or primary.confidence_score < 0.30:
+        if primary.crisis_type in ("unknown", "none", "no_crisis", "normal", "") or primary.confidence_score < 0.30:
             elapsed = (datetime.now(timezone.utc) - start_time).total_seconds() * 1000
             trace_summary.append("Classification too low confidence or unknown type. Entering monitoring mode.")
             return OrchestratorResponse(

@@ -1,4 +1,4 @@
-import { TrendingDown, Users, AlertOctagon, Timer, ShieldAlert } from 'lucide-react'
+import { Users, AlertOctagon, Timer, ShieldAlert } from 'lucide-react'
 import { useCiroStore } from '../../store/useCiroStore'
 
 export default function SimulationPanel() {
@@ -18,15 +18,9 @@ export default function SimulationPanel() {
 
   if (!simulationResult) {
     return (
-      <div className="glass-panel p-4 h-64 shrink-0 flex flex-col gap-3 border border-[#333]">
-        <h2 className="panel-header flex items-center gap-2">
-          <TrendingDown className="w-4 h-4 text-emerald-500" />
-          <span className="tracking-widest text-[10px] text-gray-400 font-bold">SIMULATION IMPACT</span>
-        </h2>
-        <div className="flex-1 flex flex-col items-center justify-center text-center text-gray-500 font-mono text-[9px] uppercase tracking-wider gap-2">
-          <ShieldAlert className="w-6 h-6 text-gray-600 opacity-40 animate-pulse" />
-          STANDBY — PIPELINE RESULTS REQUIRED
-        </div>
+      <div className="glass-panel p-4 h-64 shrink-0 flex flex-col items-center justify-center text-gray-500 font-mono text-[9px] uppercase tracking-wider text-center gap-2 border border-[#333]">
+        <ShieldAlert className="w-6 h-6 text-gray-600 opacity-40 animate-pulse" />
+        STANDBY — PIPELINE RESULTS REQUIRED
       </div>
     )
   }
@@ -36,10 +30,6 @@ export default function SimulationPanel() {
 
   return (
     <div className="glass-panel p-4 h-64 shrink-0 flex flex-col gap-3 border border-[#333]">
-      <h2 className="panel-header flex items-center gap-2 mb-1">
-        <TrendingDown className="w-4 h-4 text-emerald-400" />
-        <span className="tracking-widest text-[10px] text-emerald-400 font-bold">SIMULATION IMPACT</span>
-      </h2>
 
       <div className="grid grid-cols-2 gap-3 flex-1">
         <div className="bg-[#050505] p-3 rounded border border-[#222] flex flex-col justify-center">

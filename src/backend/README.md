@@ -1,103 +1,98 @@
-# Amaan CIRO - FastAPI & LangGraph Agentic Orchestrator
+# Amaan CIRO — Backend
 
-This directory houses the backend server for the **Amaan (CIRO) - Crisis Intelligence & Response Orchestrator** system. It is implemented in high-performance asynchronous Python utilizing FastAPI and LangGraph.
+FastAPI + LangGraph multi-agent orchestration engine for the Amaan CIRO crisis response system.
 
----
+## Architecture
 
-## 🧠 Architectural Overview
-
-Amaan's crisis brain operates as a stateful, cyclic multi-agent workflow powered by **LangGraph**. The orchestrator compiles a dynamic StateGraph where each emergency decision is executed by specialized agents reporting their raw data and reasoning tracks back into a central `CrisisState`.
+The backend operates as a stateful, cyclic multi-agent workflow powered by LangGraph. A compiled StateGraph coordinates 8 specialized agents, each reporting data and reasoning traces into a central `CrisisState`.
 
 ### LangGraph Topology
 
 ```
-START ──> Ingestion Node ─────────> (Check If Signals Exist?)
-                │                               │
-                │ [No Signals]                  │ [Has Signals]
-                ▼                               ▼
-               END (Idle)               Classification Node
-                                                │
-                                                ▼
-                                    (Evaluate Confidence / Conflicts)
-                                       /        │        \
-             [Confidence >= 0.50]     /         │         \ [Confidence < 0.50 / Contradiction]
-                                     /          │          \
-                                    ▼           │           ▼
-                    Severity Node               │      Verification Node
-                            │                   │              │
-                            ▼                   ▼              ▼
-                    Allocation Node        END (Monitoring) (Perform Contradiction Resolution)
-                            │                                  │
-                            ▼                                  ├─> Retracted Alert ──> END
-                    Simulation Node                            │
-                            │                                  ├─> Confirmed Alert ──> Severity Node
-                            ▼                                  │
-                       Comms Node                              └─> Reflection Loop (Max 2) ──> Classification
-                            │
-                            ▼
-                           END (Comms Dispatched)
+START ──> Ingestion Node ─────────> (Signals Exist?)
+                │                         │
+          [No Signals]              [Has Signals]
+                ▼                         ▼
+          END (Idle)            Classification Node
+                                          │
+                                          ▼
+                              (Confidence ≥ 0.50?)
+                                 /        │        \
+                [Yes]           /         │         \  [No / Contradiction]
+                               /          │          \
+                              ▼           │           ▼
+              Severity Node               │      Verification Node
+                      │                   │              │
+                      ▼                   ▼              ▼
+              Allocation Node       END (Monitor)  (Resolve Contradiction)
+                      │                                  │
+                      ▼                          Retracted ──> END
+              Simulation Node                   Confirmed ──> Severity Node
+                      │                          Unclear ──> Reflection Loop (×2) ──> Classification
+                      ▼
+                 Comms Node
+                      │
+                      ▼
+                     END
 ```
 
-*   **Self-Correction Reflection Loop:** When conflicting signals are ingested (e.g. water main burst vs. urban rainfall), the `VerificationAgent` performs real-time conflict-resolution. If it determines a core classification premise needs adjustment, it feeds detailed correction vectors back into the `CrisisClassificationAgent` node (looping up to 2 times) to re-evaluate the crisis under a refined context.
-*   **Firestore Telemetry Integration:** Every single node in the LangGraph execution path writes detailed traces (reasoning steps, confidence scores, trade-offs analyzed, fallback flags, and final choices) into Firestore under the `agent_traces` collection.
+- **Reflection Loop:** When conflicting signals are ingested, the VerificationAgent performs conflict resolution. If the classification needs adjustment, it feeds correction vectors back to the ClassificationAgent (up to 2 iterations).
+- **Trace Logging:** Every node writes reasoning traces (steps, confidence scores, trade-offs, fallback flags) to Firestore under `agent_traces`.
 
----
+## API Endpoints
 
-## 🛠️ FastAPI Endpoint Specifications
+| Method | Endpoint | Description |
+|--------|----------|-------------|
+| `POST` | `/api/pipeline/run` | Full crisis pipeline (direct orchestrator) |
+| `POST` | `/api/pipeline/run/v2` | Full pipeline via LangGraph StateGraph |
+| `POST` | `/api/chat` | Multilingual citizen chat (English, Urdu, Roman Urdu) |
+| `GET` | `/api/crises/active` | List active crisis events |
+| `GET` | `/api/resources` | Current fleet inventory |
+| `GET` | `/api/traces/export` | Export all agent traces as JSON |
+| `GET` | `/health` | Cloud Run health check |
 
-*   `POST /api/pipeline/run`: Ingests a new set of location metrics, compiles the LangGraph StateGraph, executes the multi-agent pipeline, and returns the unified incident orchestration plan.
-*   `POST /api/chat`: Standalone conversational endpoint routed to the **ChatAgent** providing bilingual (English, Urdu, Roman Urdu) safety advice with localized geohash spatial queries.
-*   `GET /api/traces/export`: Gathers all logged execution traces and compiles the standard JSON file for hackathon jury submission.
-*   `GET /api/crises/active`: Fetches the live list of currently tracked, active crisis events from Cloud Firestore.
-*   `GET /api/resources`: Retrieves current tactical fleet inventories (ambulances, boats, rescue teams).
-*   `GET /health`: Health-check endpoint for Google Cloud Run container verification.
-
----
-
-## 💻 Local Setup & Execution
+## Setup
 
 ### Prerequisites
-*   Python 3.11+
-*   Google Firebase / Cloud Firestore Service Account Key (set as `GOOGLE_APPLICATION_CREDENTIALS`)
-*   Groq API Key (set as `GROQ_API_KEY`) and/or Gemini API Key (set as `GEMINI_API_KEY`)
+- Python 3.11+
+- Groq API key and/or Gemini API key
+- Google Cloud Firestore service account (optional, for trace persistence)
 
-### 1. Installation
-Create and activate a clean Python virtual environment:
+### Installation
+
 ```bash
 python -m venv venv
-venv\Scripts\activate      # Windows Powershell
-source venv/bin/activate   # macOS / Linux
-```
-Install backend dependencies:
-```bash
+venv\Scripts\activate        # Windows
+# source venv/bin/activate   # macOS/Linux
+
 pip install -r requirements.txt
 ```
 
-### 2. Environment Configurations
-Configure the local environment variables in a `.env` file at `src/backend/.env`:
+### Configuration
+
+Create `.env` in this directory:
 ```env
 GROQ_API_KEY=your_groq_api_key
 GEMINI_API_KEY=your_gemini_api_key
-FIRESTORE_PROJECT_ID=your_gcp_project_id
-GOOGLE_APPLICATION_CREDENTIALS=path/to/firebase/service-account.json
 DEMO_MODE=True
 ```
-*Note: If `DEMO_MODE` is set to `True`, the backend will dynamically fallback to local mock data (from `data/demo_scenarios.json` and `data/ict_vulnerability.json`) if Google Cloud Run Firestore/LLM endpoints are offline.*
 
-### 3. Running the Server
-Launch the FastAPI uvicorn daemon:
+Setting `DEMO_MODE=True` uses local mock data from `data/demo_scenarios.json` when live APIs are unavailable.
+
+### Running
+
 ```bash
 uvicorn main:app --reload --port 8000
 ```
-Open [http://localhost:8000/docs](http://localhost:8000/docs) to access the interactive OpenAPI/Swagger Documentation interface.
 
----
+Interactive API docs at [localhost:8000/docs](http://localhost:8000/docs).
 
-## 🚀 Google Cloud Run Production Deployment
+## Deployment
 
-Amaan's backend is fully containerized and hosted on serverless **Google Cloud Run**, delivering high-availability and automatic scaling down to zero.
+The backend is containerized and deployed on Google Cloud Run (serverless, auto-scaling):
 
-### Deploying the container:
 ```bash
 gcloud run deploy amaan-ciro --source . --region asia-south1 --allow-unauthenticated
 ```
+
+Production API: [amaan-ciro-485623882730.asia-south1.run.app/docs](https://amaan-ciro-485623882730.asia-south1.run.app/docs)

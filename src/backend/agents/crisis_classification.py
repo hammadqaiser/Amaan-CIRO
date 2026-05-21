@@ -21,28 +21,42 @@ from models.schemas import (
 
 CLASSIFICATION_PROMPT = """
 You are a crisis classification AI for Pakistan Emergency Management.
- 
+
 Analyze these signals and classify the crisis:
 {signals_json}
- 
+
 Historical vulnerability data for this area:
 {historical_context}
- 
+
 Current season: {season}
 Current time: {current_time}
- 
+
+VALID crisis_type VALUES (you MUST use one of these):
+- "urban_flood" — for any flooding, heavy rainfall >30mm/3hrs, waterlogging, submerged roads
+- "heatwave" — for extreme heat >40°C, heat exhaustion, dehydration emergencies
+- "accident" — for road accidents, vehicle collisions, infrastructure collapse
+- "power_outage" — for electricity failures, grid overload, transformer damage
+- "infrastructure" — for water main bursts, pipeline failures, building damage
+- "compound" — for multiple simultaneous crisis types
+
+CRITICAL: You MUST NEVER return "none", "no_crisis", "normal", "unknown", or any empty string as crisis_type.
+If signals show any weather anomaly (rainfall >5mm, temperature >38°C, wind >50km/h), classify it.
+If signals are truly routine with zero concerning data, classify as "infrastructure" with confidence_score 0.35.
+
 Classification rules to apply:
 - Monsoon season (July–September) + rainfall >50mm/3hrs = boost urban_flood probability by +0.25
 - G-10, I-10, G-11, G-13 Islamabad = high flood vulnerability sectors
 - Temperature >42°C + low-income sector = classify as heatwave emergency
+- Temperature >38°C in any sector = classify as heatwave with confidence 0.50+
 - PMD official alert + any corroborating signal = minimum confidence 0.75
- 
+- Any rainfall >15mm = at minimum classify as urban_flood with confidence 0.45+
+
 Contradiction resolution rules:
 - Two signals conflict → check timestamps, prefer newer signal
 - Credibility difference >0.30 → prefer higher credibility source
 - Contradiction cannot be resolved → set confidence <0.50, status=unverified
 - If contradiction resolved by dismissing stale/low-credibility signal → confidence penalty of 0.05
- 
+
 Return ONLY this JSON — no other text, no markdown:
 {{
   "crisis_type": "string",
@@ -125,15 +139,37 @@ class CrisisClassificationAgent(BaseAgent):
                 "reasoning": "Rule-based fallback: multiple heat signals detected"
             }
         else:
+            # Check if any individual signal hints at a crisis type
+            any_weather = [s for s in signals if s.signal_type == "weather" and not s.staleness_flag]
+            if any_weather:
+                # Extract temperature from weather signal content
+                for ws in any_weather:
+                    content_lower = ws.content.lower()
+                    # Check for any temperature above 38C
+                    import re as _re
+                    temp_match = _re.search(r'(\d+\.?\d*)\s*°?c', content_lower)
+                    if temp_match:
+                        temp_val = float(temp_match.group(1))
+                        if temp_val > 38.0:
+                            return {
+                                "crisis_type": "heatwave",
+                                "sub_type": "heat_advisory",
+                                "confidence_score": 0.50,
+                                "contradictions_detected": False,
+                                "contradiction_detail": None,
+                                "dominant_signal_ids": [ws.signal_id],
+                                "dismissed_signal_ids": [],
+                                "reasoning": f"Rule-based fallback: Temperature {temp_val}°C exceeds 38°C threshold. Heat advisory issued."
+                            }
             return {
-                "crisis_type": "unknown",
-                "sub_type": "unclassified",
-                "confidence_score": 0.30,
+                "crisis_type": "infrastructure",
+                "sub_type": "monitoring",
+                "confidence_score": 0.35,
                 "contradictions_detected": False,
                 "contradiction_detail": None,
                 "dominant_signal_ids": [],
                 "dismissed_signal_ids": [],
-                "reasoning": "Rule-based fallback: insufficient signals for classification"
+                "reasoning": "Rule-based fallback: No strong crisis signals, but monitoring infrastructure conditions."
             }
 
     async def run(self, input_data: CrisisClassificationInput) -> CrisisClassificationOutput:

@@ -13,6 +13,7 @@ import ResourcePanel from './components/layout/ResourcePanel'
 import SimulationPanel from './components/layout/SimulationPanel'
 import AlertsPanel from './components/layout/AlertsPanel'
 import StreamDockPanel from './components/layout/StreamDockPanel'
+import LiveStatusTicker from './components/layout/LiveStatusTicker'
 import { useCiroStore } from './store/useCiroStore'
 import { 
   Navigation, 
@@ -25,8 +26,8 @@ import {
   Bell, 
   MessageSquare, 
   Settings, 
-  Wifi, 
-  WifiOff, 
+  Wifi,
+  WifiOff,
   Sliders, 
   Play, 
   Info,
@@ -35,6 +36,50 @@ import {
   Award,
   CheckCircle
 } from 'lucide-react'
+
+function MobileTimeTicker() {
+  const [currentTime, setCurrentTime] = useState(new Date())
+
+  useEffect(() => {
+    const timer = setInterval(() => setCurrentTime(new Date()), 1000)
+    return () => clearInterval(timer)
+  }, [])
+
+  const formattedDate = currentTime.toLocaleDateString('en-US', {
+    weekday: 'short',
+    day: '2-digit',
+    month: 'short',
+    year: 'numeric',
+    timeZone: 'Asia/Karachi'
+  }).toUpperCase()
+
+  const formattedTime = currentTime.toLocaleTimeString('en-GB', {
+    hour: '2-digit',
+    minute: '2-digit',
+    second: '2-digit',
+    hour12: false,
+    timeZone: 'Asia/Karachi'
+  })
+
+  return (
+    <div className="bg-[#070707] border border-[#1f1f1f] rounded-lg px-4 py-2 flex items-center justify-between shadow-lg relative overflow-hidden select-none shrink-0">
+      <div className="flex items-center gap-2">
+        <Radio className="w-3.5 h-3.5 text-emerald-500 animate-pulse" />
+        <span className="text-[10px] text-gray-400 font-bold tracking-wider">
+          {formattedDate}
+        </span>
+      </div>
+      <div className="flex items-center gap-1.5">
+        <span className="text-[12px] text-emerald-400 font-extrabold tracking-widest tabular-nums">
+          {formattedTime}
+        </span>
+        <span className="text-[8px] text-gray-600 font-bold tracking-wider">
+          PKT
+        </span>
+      </div>
+    </div>
+  )
+}
 
 function App() {
   const { newsFeeds, triggerPipelineRun, isLoading, allAlerts, agentStatus } = useCiroStore()
@@ -105,7 +150,7 @@ function App() {
           <div className="flex items-center gap-2">
             <Activity className="text-emerald-400 w-5 h-5 animate-pulse" />
             <h1 className="font-bold tracking-widest text-gray-100 text-xs uppercase flex flex-col">
-              AMAAN <span className="text-[7px] text-gray-500 font-bold tracking-normal font-mono -mt-1">CRISIS COMMAND</span>
+              AMAAN <span className="text-[7px] text-gray-500 font-bold tracking-normal font-mono -mt-1">CIRO COMMAND</span>
             </h1>
           </div>
 
@@ -161,6 +206,9 @@ function App() {
           {mobileTab === 'overview' && (
             <div className="w-full h-full overflow-y-auto px-4 py-4 space-y-6 pb-24 custom-scrollbar bg-[#020202]">
               
+              {/* Compact Mobile Time Ticker */}
+              <MobileTimeTicker />
+
               {/* Brand Logo, Motto & Premium Header Banner */}
               <div className="bg-gradient-to-br from-[#0c0c0c] to-[#040404] border border-[#1f1f1f] rounded-lg p-5 flex flex-col items-center justify-center text-center shadow-xl relative overflow-hidden">
                 <div className="absolute top-0 right-0 w-24 h-24 bg-emerald-500/5 rounded-full blur-3xl"></div>
@@ -752,9 +800,10 @@ function App() {
     <div id="amaan-command-center" className="min-h-screen w-full flex flex-col bg-[#020202] text-gray-200 custom-scrollbar font-mono pb-20">
       <TopNavBar />
       <AgentStatusBanner />
+      <LiveStatusTicker />
 
       {/* STICKY DESKTOP TOOLBAR */}
-      <div className="sticky top-0 z-40 bg-[#050505]/95 backdrop-blur-md border-b border-[#1f1f1f] px-4 py-2.5 flex flex-wrap items-center justify-between gap-3 shadow-lg shadow-black/60">
+      <div className="sticky top-0 z-40 h-12 bg-[#050505]/95 backdrop-blur-md border-b border-[#1f1f1f] px-4 py-0 flex flex-wrap items-center justify-between gap-3 shadow-lg shadow-black/60">
         <div className="flex items-center gap-2">
           <Navigation className="w-4 h-4 text-emerald-400 shrink-0" />
           <span className="text-[10px] uppercase font-bold text-gray-400 tracking-wider font-mono">CIRO Tactical Console</span>
@@ -853,7 +902,6 @@ function App() {
         {/* TAB 1: SYSTEM OVERVIEW (PREMIUM LANDING PAGE) */}
         {activeTab === 'overview' && (
           <div className="flex flex-col gap-8 w-full animate-fade-in-up font-mono">
-            
             {/* ROW 1: Interactive map with float control */}
             <div className="h-[55vh] min-h-[450px] w-full relative border border-[#1f1f1f] rounded-lg overflow-hidden shadow-2xl shrink-0">
               <MapCanvas />
@@ -1077,6 +1125,41 @@ function App() {
               </div>
             </div>
 
+            {/* ROW 5.5: Stakeholder Logs Panel (5 Panels in one row) */}
+            <div className="space-y-4 w-full">
+              <div className="flex items-center gap-2 px-1">
+                <span className="w-1.5 h-3 bg-amber-500 rounded-sm"></span>
+                <h3 className="text-xs uppercase font-bold text-gray-200 tracking-wider">🚨 Stakeholder Logs Panel</h3>
+              </div>
+              
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-4">
+                <AlertsPanel audience="ndma" />
+                <AlertsPanel audience="emergency_services" />
+                <AlertsPanel audience="hospitals" />
+                <AlertsPanel audience="public" />
+                <AlertsPanel audience="media" />
+              </div>
+            </div>
+
+            {/* ROW 5.6: Response Operations & Telemetry Deck + Simulation Impact (Two Columns) */}
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 w-full">
+              <div className="flex flex-col gap-2">
+                <div className="flex items-center gap-2 px-1">
+                  <span className="w-1.5 h-3 bg-blue-500 rounded-sm"></span>
+                  <h4 className="text-[10px] uppercase font-bold text-gray-300 tracking-widest font-mono">Response Operations & Telemetry Deck</h4>
+                </div>
+                <ResourcePanel />
+              </div>
+              
+              <div className="flex flex-col gap-2">
+                <div className="flex items-center gap-2 px-1">
+                  <span className="w-1.5 h-3 bg-emerald-500 rounded-sm"></span>
+                  <h4 className="text-[10px] uppercase font-bold text-gray-300 tracking-widest font-mono">Simulation Impact</h4>
+                </div>
+                <SimulationPanel />
+              </div>
+            </div>
+
             {/* ROW 6: Why Amaan Crisis Intelligence */}
             <div className="bg-[#070707] border border-[#1a1a1a]/85 rounded-lg p-8 shadow-xl font-mono relative w-full overflow-hidden">
               <div className="absolute top-6 right-8 flex items-center justify-center">
@@ -1244,16 +1327,20 @@ function App() {
         {/* TAB 5: LOGISTICS, DISPATCH & RESPONSE WORKSPACE */}
         {activeTab === 'operations' && (
           <div className="flex flex-col gap-3 animate-fade-in-up">
-            <div className="flex items-center gap-2 px-1">
-              <span className="w-1.5 h-3 bg-blue-500 rounded-sm"></span>
-              <h2 className="text-xs uppercase font-bold text-gray-300 tracking-widest font-mono">Response Operations & Telemetry Deck</h2>
-            </div>
-
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
-              <div className="min-h-[280px]">
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 w-full">
+              <div className="flex flex-col gap-2">
+                <div className="flex items-center gap-2 px-1">
+                  <span className="w-1.5 h-3 bg-blue-500 rounded-sm"></span>
+                  <h4 className="text-[10px] uppercase font-bold text-gray-300 tracking-widest font-mono">Response Operations & Telemetry Deck</h4>
+                </div>
                 <ResourcePanel />
               </div>
-              <div className="min-h-[280px]">
+              
+              <div className="flex flex-col gap-2">
+                <div className="flex items-center gap-2 px-1">
+                  <span className="w-1.5 h-3 bg-emerald-500 rounded-sm"></span>
+                  <h4 className="text-[10px] uppercase font-bold text-gray-300 tracking-widest font-mono">Simulation Impact</h4>
+                </div>
                 <SimulationPanel />
               </div>
             </div>

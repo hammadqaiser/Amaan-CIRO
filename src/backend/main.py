@@ -69,7 +69,7 @@ from agents.resource_allocation import ResourceAllocationAgent
 from agents.simulation import SimulationAgent
 from agents.stakeholder_comms import StakeholderCommsAgent
 from agents.verification import VerificationAgent
-from agents.chat_agent import ChatAgent, set_active_crises, set_shelters
+from agents.chat_agent import ChatAgent, set_active_crises, set_shelters, set_weather_context
 from agents.base_agent import DATA_DIR, SUBMISSION_DIR
 
 from models.schemas import (
@@ -177,6 +177,7 @@ async def run_pipeline(request: PipelineRequest):
         if response.crisis_detected and response.final_output:
             crisis_data = response.final_output.get("crisis", {})
             crisis_data["event_id"] = response.event_id
+            active_crises.clear()  # Clear stale crises before adding new
             active_crises.append(crisis_data)
             set_active_crises(active_crises)
             pipeline_history.append({
@@ -211,6 +212,7 @@ async def run_pipeline_v2(request: PipelineRequest):
             crisis_data = response["final_output"].get("crisis", {})
             if crisis_data:
                 crisis_data["event_id"] = response["event_id"]
+                active_crises.clear()  # Clear stale crises before adding new
                 active_crises.append(crisis_data)
                 set_active_crises(active_crises)
 
@@ -606,6 +608,11 @@ async def demo_scenario_b():
         }
     }
 
+    # Propagate crisis context to chat agent
+    active_crises.clear()
+    active_crises.append(retracted_crisis.model_dump())
+    set_active_crises(active_crises)
+
     return {
         "scenario": "B",
         "description": "False Alarm Recovery — Water Main Burst",
@@ -806,6 +813,12 @@ async def demo_scenario_c():
             "improvement_summary": "AMAAN REDUCED RESPONSE TIME BY 57% (23 MIN -> 10 MIN), AND DEPLOYED SPLIT RESOURCES WITH 15% FAIRNESS BONUS FOR I-8 LOW-INCOME FAMILIES."
         }
     }
+
+    # Propagate both crises to chat agent context
+    active_crises.clear()
+    active_crises.append(flood_crisis.model_dump())
+    active_crises.append(heat_crisis.model_dump())
+    set_active_crises(active_crises)
 
     return {
         "scenario": "C",
